@@ -117,7 +117,9 @@ public class Login extends javax.swing.JFrame {
         if (a==0)
         {System.exit(0);}
         else
-        l.setVisible(true);
+        {
+            l.setVisible(true);
+        }
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -130,7 +132,9 @@ public class Login extends javax.swing.JFrame {
             Welcome n = new Welcome();
             n.setVisible(true);}
         else
-        JOptionPane.showMessageDialog(null,"Invalid Password");
+        {
+            JOptionPane.showMessageDialog(null,"Invalid Password");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
