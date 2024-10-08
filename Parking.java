@@ -1,4 +1,5 @@
 
+import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import java.sql.*;
 /*
@@ -415,16 +416,16 @@ public class Parking extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         try{
-        String lp=LP_No.getText();
         Class.forName("java.sql.Driver");
         Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/parkingsystem","root","root");
-        Statement st=con.createStatement();
-        ResultSet rs=st.executeQuery("select spot.S_date,spot.Sp_ID,spot.Available from spot inner join customer on customer.Cust_ID=spot.Sp_ID where Lise_No= '"+lp+"';");
+        PreparedStatement st=con.prepareStatement("select spot.S_date,spot.Sp_ID,spot.Available from spot inner join customer on customer.Cust_ID=spot.Sp_ID where Lise_No= ?;");
+        st.setString(1, LP_No.getText());
+        ResultSet rs=st.execute();
         while (rs.next())
         {
-        jTextField3.setText(rs.getInt("Available")+"");
-        jTextField1.setText(rs.getInt("Sp_ID")+"");
-        jTextField4.setText(rs.getInt("Cust_ID")+"");
+        jTextField3.setText(rs.getInt("Available"));
+        jTextField1.setText(rs.getInt("Sp_ID"));
+        jTextField4.setText(rs.getInt("Cust_ID"));
         }
         }
         catch(Exception ex)

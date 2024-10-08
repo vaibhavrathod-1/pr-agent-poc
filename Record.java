@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.sql.Connection;
@@ -218,17 +215,20 @@ public class Record extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code he
         try{Class.forName("java.sql.Driver");
-        String cust_ID =(jTextField1.getText());
-        String date = (jTextField2.getText());
+        String cust_ID =("");
+        String date = ("");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ParkingSystem","root","root");
-        Statement st = con.createStatement();
-        ResultSet myRs = st.executeQuery("select customer.C_date,customer.Cust_ID,Lise_No,Sp_assig,Arr_Time,Dept_Time,Tot_Amt from customer inner join payment on customer.C_date=payment.P_date where Cust_ID= '"+cust_ID+"' and C_date = '"+date+"';");
+        PreparedStatement st = con.prepareStatement("select customer.C_date,customer.Cust_ID,Lise_No,Sp_assig,Arr_Time,Dept_Time,Tot_Amt from customer inner join payment on customer.C_date=payment.P_date where Cust_ID= ?"+cust_ID+" and C_date = ?"+date+";");
+        st.setString(1, jTextField1.getText());
+        st.setString(2, jTextField2.getText());
+        ResultSet myRs = st.execute();
         while (myRs.next())
         {
          Object o[]={myRs.getDate("C_date"),myRs.getInt("Cust_ID"),myRs.getString("Lise_No"),myRs.getInt("Sp_assig"),myRs.getTime("Arr_Time"),myRs.getTime("Dept_Time"),myRs.getInt("Tot_Amt")};
          DefaultTableModel tm=(DefaultTableModel) jTable1.getModel();
          tm.addRow(o);
         }
+
         }
         catch (Exception ex)
         {System.out.println(ex);}
